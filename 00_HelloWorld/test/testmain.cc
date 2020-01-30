@@ -1,0 +1,20 @@
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include "catch.hpp"
+
+#include <iostream>
+#include <sstream>
+
+#include "../src/Hello.h"
+
+TEST_CASE( "hello() says hello" ) {
+  std::ostringstream out;
+  std::streambuf* coutbuf = std::cout.rdbuf();
+
+  std::cout.rdbuf(out.rdbuf()); //redirect cout to out
+
+  Hello("tester").Print();
+  Hello("you").Print();
+  std::cout.rdbuf(coutbuf);
+
+  REQUIRE( out.str() == "Hello, tester\nHello, you\n");
+}
